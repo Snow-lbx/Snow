@@ -1,0 +1,60 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .daily-content {
+            position: fixed;
+            left: 10px;
+            top: 50px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="daily-content">
+    <h2>每日分享</h2>
+    
+    <div id="article-of-the-day">
+        <!-- 每日文章标题和链接 -->
+    </div>
+
+    <div id="media-of-the-day">
+        <!-- 每日图片链接 -->
+    </div>
+</div>
+
+<script>
+    // 获取当前日期
+    var date = new Date();
+    var day = date.getDate();
+
+    // 根据日期加载不同内容
+    // 这里只是一个示例，实际使用时需要根据具体需求和网站API进行调整
+
+    // AJAX 请求获取每日文章内容
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 解析 JSON 数据
+            var articleData = JSON.parse(xhr.responseText);
+            // 更新页面上的文章内容
+            document.getElementById('article-of-the-day').innerHTML = '<p>' + articleData.title + '</p><a href="' + articleData.link + '">阅读更多</a>';
+        }
+    };
+    // 发送 AJAX 请求，获取文章内容
+    xhr.open('GET', 'https://top.baidu.com/board?platform=pc&sa=pcindex_entry' + day, true);
+    xhr.send();
+
+    // 默认图片链接
+    var imageUrl = "https://top.baidu.com/board?platform=pc&sa=pcindex_entry";
+
+    // 动态加载每日图片链接
+    document.getElementById('media-of-the-day').innerHTML = '<img src="' + imageUrl + '" alt="每日图片">';
+
+</script>
+
+</body>
+</html>
